@@ -107,11 +107,11 @@ Running commands with arguments:
 .br
 	-rw-r--r-- 1 root root  1849 Jul 28 04:04 built_in.c
 .br
-	-rw-r--r-- 1 root root  1375 Jul 28 04:10 error.c
+	-rw-r--r-- 1 root root  1375 Jul 28 04:10 errors.c
 .br
-	-rw-r--r-- 1 root root   907 Jul 28 04:13 execute_line.c
+	-rw-r--r-- 1 root root   907 Jul 28 04:13 execute_lines.c
 .br
-	-rw-r--r-- 1 root root   452 Jul 28 04:14 free_loop.c
+	-rw-r--r-- 1 root root   452 Jul 28 04:14 free_loops.c
 .br 
 	-rw-r--r-- 1 root root   442 Jul 27 21:29 _getenv.c
 .br
@@ -127,9 +127,9 @@ Running commands with arguments:
 .br
 	-rw-r--r-- 1 root root  1416 Jul 28 04:06 shell.h
 .br
-	-rw-r--r-- 1 root root   841 Jul 28 04:31 special_case.c
+	-rw-r--r-- 1 root root   841 Jul 28 04:31 special_cases.c
 .br
-	-rw-r--r-- 1 root root   837 Jul 28 04:32 split_line.c
+	-rw-r--r-- 1 root root   837 Jul 28 04:32 split_lines.c
 .br
 	-rw-r--r-- 1 root root  1740 Jul 28 04:33 useful_func.c
 .br
@@ -143,11 +143,11 @@ The shell works like this in non-interactive mode:
 .br
 	$ echo "/bin/ls" | ./hsh
 .br
-	built_in.c      _getenv.c    man_1_simple_shell  shell.c         split_line.c
+	built_in.c      _getenv.c    man_1_simple_shell  shell.c         split_lines.c
 .br
-	error.c         hsh          mini_shell          shell.h         useful_func.c
+	errors.c         hsh          mini_shell          shell.h         useful_func.c
 .br
-	execute_line.c  list_path.c  README.md           special_case.c  _which.c
+	execute_lines.c  list_path.c  README.md           special_cases.c  _which.c
 .br
 	$
 
