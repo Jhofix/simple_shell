@@ -1,67 +1,76 @@
 #include "shell.h"
-/**
-*_werror - puts a char to the std error
-*@c: character to write
-*Return: int to print
-*/
-int _werror(char c)
-{
-	return (write(STDERR_FILENO, &c, 1));
-}
-/**
-*print_num - function that print a num with function write
-*@count: the number of times you have done a command
-*/
-void print_num(int count)
-{
-	int nlen = 1, powten = 1, count2;
 
-	count2 = count;
-
-	while (count2 >= 10)
-	{
-		count2 /= 10;
-		powten *= 10;
-		++nlen;
-	}
-	while (nlen >= 1)
-	{
-		if ((count / powten) < 10)
-			_werror(count / powten + '0');
-		else
-			_werror(((count / powten) % 10 + '0'));
-		--nlen;
-		powten /= 10;
-	}
-}
 /**
-*_error - writes an error message similar to the sh error
-*when command not found
-*@argv: the argv from the main function
-*@first: first command to print if not found
-*@count: the number of times you have done a command
-*@exit_st: exit status
-*/
-void _error(char **argv, char *first, int count, int **exit_st)
+ * print_error - prints error messages to standard error
+ * @vars: pointer to struct of variables
+ * @msg: message to print out
+ *
+ * Return: void
+ */
+void print_error(vars_t *vars, char *msg)
 {
-	struct stat st;
+	char *count;
 
-	write(STDERR_FILENO, argv[0], _strlen(argv[0]));
-	write(STDERR_FILENO, ":", 2);
-	print_num(count);
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, first, _strlen(first));
-	write(STDERR_FILENO, ": ", 2);
-	if (stat(first, &st) == 0 && S_ISDIR(st.st_mode))
+	_puts2(vars->argv[0]);
+	_puts2(": ");
+	count = _uitoa(vars->count);
+	_puts2(count);
+	free(count);
+	_puts2(": ");
+	_puts2(vars->av[0]);
+	if (msg)
 	{
-		**exit_st = 126;
-		if (_strcmp(first, "..") == 0)
-			**exit_st = 127;
-		perror("");
+		_puts2(msg);
 	}
 	else
+		perror("");
+}
+
+/**
+ * _puts2 - prints a string to standard error
+ * @str: string to print
+ *
+ * Return: void
+ */
+void _puts2(char *str)
+{
+	ssize_t num, len;
+
+	num = _strlen(str);
+	len = write(STDERR_FILENO, str, num);
+	if (len != num)
 	{
-		**exit_st = 127;
-		write(STDERR_FILENO, "not found\n", 10);
+		perror("Fatal Error");
+		exit(1);
 	}
+
+}
+
+/**
+ * _uitoa - converts an unsigned int to a string
+ * @count: unsigned int to convert
+ *
+ * Return: pointer to the converted string
+ */
+char *_uitoa(unsigned int count)
+{
+	char *numstr;
+	unsigned int tmp, digits;
+
+	tmp = count;
+	for (digits = 0; tmp != 0; digits++)
+		tmp /= 10;
+	numstr = malloc(sizeof(char) * (digits + 1));
+	if (numstr == NULL)
+	{
+		perror("Fatal Error1");
+		exit(127);
+	}
+	numstr[digits] = '\0';
+	for (--digits; count; --digits)
+	{
+		numstr[digits] = (count % 10) + '0';
+		count /= 10;
+	}
+	return (numstr);
 }
